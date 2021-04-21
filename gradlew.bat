@@ -24,6 +24,9 @@
 @rem Set local scope for the variables with windows NT shell
 if "%OS%"=="Windows_NT" setlocal
 
+@rem set new JAVA_HOME
+set JAVA_HOME="C:\software\OpenJDK8U-jdk_x64_windows_hotspot_8u282b08"
+
 set DIRNAME=%~dp0
 if "%DIRNAME%" == "" set DIRNAME=.
 set APP_BASE_NAME=%~n0
