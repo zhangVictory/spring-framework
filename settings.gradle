@@ -62,3 +62,16 @@ settings.gradle.projectsLoaded {
 		}
 	}
 }
+
+
+gradle.settingsEvaluated {
+	println "setting.gradle has been loaded"
+}
+
+gradle.projectsLoaded {
+	println "projects have been loaded"
+}
+
+gradle.beforeProject {
+	println "before project"
+}
