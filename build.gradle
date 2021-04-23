@@ -423,3 +423,5 @@ configure(rootProject) {
 		}
 	}
 }
+
+println('all pro:'+rootProject)
