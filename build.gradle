@@ -424,30 +424,3 @@ configure(rootProject) {
 	}
 }
 
-println('root project Class:'+rootProject.getClass())
-
-def projectName = project.getName()
-
-gradle.afterProject {
-	println projectName+" after project"
-}
-gradle.projectsEvaluated {
-	println projectName+" project evaluated"
-}
-project.beforeEvaluate {
-	println projectName+" before evaluate"
-}
-project.afterEvaluate {
-	println projectName+" after evaluate"
-}
-
-gradle.taskGraph.beforeTask {
-	println projectName+" gradle.taskGraph.beforeTask"
-}
-gradle.taskGraph.afterTask {
-	println projectName+" gradle.taskGraph.afterTask"
-}
-gradle.buildFinished {
-	println projectName+" buildFinished"
-}
-

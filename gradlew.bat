@@ -26,6 +26,7 @@ if "%OS%"=="Windows_NT" setlocal
 
 @rem set new JAVA_HOME
 set JAVA_HOME="C:\software\OpenJDK8U-jdk_x64_windows_hotspot_8u282b08"
+set GRADLE_OPTS="-Dfile.encoding=utf-8"
 
 set DIRNAME=%~dp0
 if "%DIRNAME%" == "" set DIRNAME=.

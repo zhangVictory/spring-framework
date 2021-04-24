@@ -63,15 +63,26 @@ settings.gradle.projectsLoaded {
 	}
 }
 
-
+//settings.gradle执行完成时 回调
 gradle.settingsEvaluated {
-	println "setting.gradle has been loaded"
+	println "initial phrase:settingsEvaluated"
 }
 
+//当所有项目被加载的时候，回调
 gradle.projectsLoaded {
-	println "projects have been loaded"
+	println "initial phrase:projectsLoaded"
 }
 
+//开始配置项目之前，回调
 gradle.beforeProject {
-	println "before project"
+	println "project config phrase:beforeProject"
+}
+
+//配置项目之后，回调
+gradle.afterProject {
+	println "project config phrase: afterProject"
+}
+
+gradle.projectsEvaluated {
+	println "project config phrase: projectsEvaluated"
 }

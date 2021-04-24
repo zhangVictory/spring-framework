@@ -99,3 +99,13 @@ test {
 	// When test fixtures are involved, the JAR is used by default
 	classpath = sourceSets.main.output.classesDirs + classpath - files(jar.archiveFile)
 }
+
+//在spring-core项目的build.gradle 执行之前调用
+project.beforeEvaluate {
+	println "project config phrase (beforeEvaluate) project name:"+project.getName()
+}
+
+//在spring-core项目的build.gradle执行之后调用
+project.afterEvaluate {
+	println "project config phrase (afterEvaluate): project name:"+project.getName()
+}
