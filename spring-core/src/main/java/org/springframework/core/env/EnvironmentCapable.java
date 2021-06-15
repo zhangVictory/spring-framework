@@ -17,6 +17,15 @@
 package org.springframework.core.env;
 
 /**
+ * 标识一个持有，并且可以暴露Environment对象引用的接口，所有的spring application context对象
+ * 都是一个EnvironmentCapable对象，这个接口主要用于在接受一个BeanFactory实例的框架方法中，通过
+ * instanceof 操作来检查BeanFactory实例是否是一个ApplicationContext实例，以便于和environment
+ * 交互。
+ *
+ * 就像前面提到的那样，ApplicationContext继承自EnvironmentCapable，暴露一个getEnvironment方法，
+ * ConfigurableApplicationContext重新定义了该方法，并且返回窄化的ConfigurableEnvironment对象
+ * 这个对象是可以编辑的Environment对象。
+ *
  * Interface indicating a component that contains and exposes an {@link Environment} reference.
  *
  * <p>All Spring application contexts are EnvironmentCapable, and the interface is used primarily

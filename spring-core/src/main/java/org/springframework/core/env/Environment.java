@@ -18,7 +18,7 @@ package org.springframework.core.env;
 
 /**
  * 表示当前应用程序正在其中运行的环境的接口，主要管理两个方面，profiles和properties，有关属性
- * 的操作暴漏在PropertyResolver父接口中
+ * 的操作暴露在PropertyResolver父接口中
  *
  * 一个profile是一个命名的，bean定义的逻辑分组，只有被设置为active的profile中的bean才会被注册，
  * bean会被分配一个profile，无论是XML还是注解的定义方式，查看spring-beans 3.1 或者查看@Profile
@@ -27,6 +27,16 @@ package org.springframework.core.env;
  * 属性在应用中扮演重要角色，可能来源于多个资源，属性文件，JVM的系统属性，系统环境变量，JNDI,
  * servlet context parameters, ad-hoc Properties objects，Environment为资源配置和解析提供
  * 了方便的接口
+ *
+ * 为了直接的查询profile的状态和解析属性，在ApplicationContext中管理的类，需要注册作为一个
+ * EnvironmentAware对象，或者注入一个Environment对象
+ *
+ * 大多数情况下，应用级别的Bean不能直接与Environment交互，相反他们使用PropertySourcesPlaceholderConfigurer
+ * 解析${...}属性，PropertySourcesPlaceholderConfigurer也是一个EnvironmentAware，在Spring3.1
+ * 的时候，当你使用 <context:property-placeholder/>注解时，它默认被注册
+ *
+ * 对Environment对象的配置需要通过ConfigurableEnvironment对象来完成，AbstractApplicationContext的
+ * 子类的getEnvironment方法可以返回这个对象，
  *
  * Interface representing the environment in which the current application is running.
  * Models two key aspects of the application environment: <em>profiles</em> and
