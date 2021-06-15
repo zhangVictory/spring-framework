@@ -27,6 +27,8 @@ import java.nio.channels.ReadableByteChannel;
 import org.springframework.lang.Nullable;
 
 /**
+ * 描述一个资源的接口，例如文件或者classpath资源
+ *
  * Interface for a resource descriptor that abstracts from the actual
  * type of underlying resource, such as a file or class path resource.
  *
@@ -52,6 +54,9 @@ import org.springframework.lang.Nullable;
 public interface Resource extends InputStreamSource {
 
 	/**
+	 * 判断当前资源是否真实存在，它会执行确定的存在性检查，但是资源句柄的存在
+	 * 仅仅保证一个有效的描述符句柄
+	 *
 	 * Determine whether this resource actually exists in physical form.
 	 * <p>This method performs a definitive existence check, whereas the
 	 * existence of a {@code Resource} handle only guarantees a valid
@@ -60,6 +65,9 @@ public interface Resource extends InputStreamSource {
 	boolean exists();
 
 	/**
+	 * 判断getInputStream方法返回的资源是否可读，默认实现是存在就可读
+	 * 返回false则明确不可读，返回true不一定就是可读的。
+	 *
 	 * Indicate whether non-empty contents of this resource can be read via
 	 * {@link #getInputStream()}.
 	 * <p>Will be {@code true} for typical resource descriptors that exist
@@ -75,6 +83,8 @@ public interface Resource extends InputStreamSource {
 	}
 
 	/**
+	 * 表示是否打开，true表示不能多次读取，并且需要读取并关闭以防资源泄露，对于特定的资源，返回false
+	 *
 	 * Indicate whether this resource represents a handle with an open stream.
 	 * If {@code true}, the InputStream cannot be read multiple times,
 	 * and must be read and closed to avoid resource leaks.
@@ -85,6 +95,8 @@ public interface Resource extends InputStreamSource {
 	}
 
 	/**
+	 * 是不是一个文件file，保守的返回false，但是返回true时，不能保证getFile（）能调用成功
+	 *
 	 * Determine whether this resource represents a file in a file system.
 	 * A value of {@code true} strongly suggests (but does not guarantee)
 	 * that a {@link #getFile()} call will succeed.
@@ -97,6 +109,8 @@ public interface Resource extends InputStreamSource {
 	}
 
 	/**
+	 * 返回资源的URL句柄，如果不能被解析为URL，则抛出IOException
+	 *
 	 * Return a URL handle for this resource.
 	 * @throws IOException if the resource cannot be resolved as URL,
 	 * i.e. if the resource is not available as descriptor
@@ -104,6 +118,8 @@ public interface Resource extends InputStreamSource {
 	URL getURL() throws IOException;
 
 	/**
+	 * 返回资源的URI句柄，如果不能被解析为URI，则抛出IOException
+	 *
 	 * Return a URI handle for this resource.
 	 * @throws IOException if the resource cannot be resolved as URI,
 	 * i.e. if the resource is not available as descriptor
@@ -112,6 +128,8 @@ public interface Resource extends InputStreamSource {
 	URI getURI() throws IOException;
 
 	/**
+	 * 返回一个代表资源的文件对象
+	 *
 	 * Return a File handle for this resource.
 	 * @throws java.io.FileNotFoundException if the resource cannot be resolved as
 	 * absolute file path, i.e. if the resource is not available in a file system
@@ -136,6 +154,8 @@ public interface Resource extends InputStreamSource {
 	}
 
 	/**
+	 * 决定资源的内容长度
+	 *
 	 * Determine the content length for this resource.
 	 * @throws IOException if the resource cannot be resolved
 	 * (in the file system or as some other known physical resource type)
@@ -143,6 +163,8 @@ public interface Resource extends InputStreamSource {
 	long contentLength() throws IOException;
 
 	/**
+	 * 返回最近一次修改的时间戳
+	 *
 	 * Determine the last-modified timestamp for this resource.
 	 * @throws IOException if the resource cannot be resolved
 	 * (in the file system or as some other known physical resource type)
@@ -150,6 +172,8 @@ public interface Resource extends InputStreamSource {
 	long lastModified() throws IOException;
 
 	/**
+	 * 创建与当前资源相关的资源
+	 *
 	 * Create a resource relative to this resource.
 	 * @param relativePath the relative path (relative to this resource)
 	 * @return the resource handle for the relative resource
@@ -158,6 +182,8 @@ public interface Resource extends InputStreamSource {
 	Resource createRelative(String relativePath) throws IOException;
 
 	/**
+	 * 返回文件名称，通常是路径的最后一部分
+	 *
 	 * Determine a filename for this resource, i.e. typically the last
 	 * part of the path: for example, "myfile.txt".
 	 * <p>Returns {@code null} if this type of resource does not
@@ -167,6 +193,8 @@ public interface Resource extends InputStreamSource {
 	String getFilename();
 
 	/**
+	 * 返回资源描述，用来输出错误信息，鼓励实现者在toString方法中也返回描述
+	 *
 	 * Return a description for this resource,
 	 * to be used for error output when working with the resource.
 	 * <p>Implementations are also encouraged to return this value

@@ -17,6 +17,17 @@
 package org.springframework.core.env;
 
 /**
+ * 表示当前应用程序正在其中运行的环境的接口，主要管理两个方面，profiles和properties，有关属性
+ * 的操作暴漏在PropertyResolver父接口中
+ *
+ * 一个profile是一个命名的，bean定义的逻辑分组，只有被设置为active的profile中的bean才会被注册，
+ * bean会被分配一个profile，无论是XML还是注解的定义方式，查看spring-beans 3.1 或者查看@Profile
+ * 获取详情。Environment的角色是指定那些profile是激活的，那些profile是默认激活的。
+ *
+ * 属性在应用中扮演重要角色，可能来源于多个资源，属性文件，JVM的系统属性，系统环境变量，JNDI,
+ * servlet context parameters, ad-hoc Properties objects，Environment为资源配置和解析提供
+ * 了方便的接口
+ *
  * Interface representing the environment in which the current application is running.
  * Models two key aspects of the application environment: <em>profiles</em> and
  * <em>properties</em>. Methods related to property access are exposed via the

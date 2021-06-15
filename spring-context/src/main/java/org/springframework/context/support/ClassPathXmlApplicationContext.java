@@ -24,6 +24,22 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
 /**
+ *
+ * 单机的XML应用程序上下文，从classpath中获取上下文定义文件，
+ * 把一个普通的路径翻译成一个带有包名的classpath资源名称，对
+ * 测试工具，和内嵌在jar中的application context都是有用的。
+ *
+ * 默认的配置文件的路径可以被getConfigLocations方法重写，配
+ * 置文件的位置可以使用一个具体的文件路径表示，也可以使用Ant风
+ * 格的文件模式
+ *
+ * 如果有多个配置文件，那么后面的bean定义会覆盖前面的，可以使用
+ * 一个额外的XML文件故意的覆盖某些bean的定义来平衡
+ *
+ * 这是一个简单的，一站式的、方便的ApplicationContext，可以考
+ * 虑使用GenericApplicationContext结合XmlBeanDefinitionReader
+ * 来达更为灵活的上下文设置。
+ *
  * Standalone XML application context, taking the context definition files
  * from the class path, interpreting plain paths as class path resource names
  * that include the package path (e.g. "mypackage/myresource.txt"). Useful for

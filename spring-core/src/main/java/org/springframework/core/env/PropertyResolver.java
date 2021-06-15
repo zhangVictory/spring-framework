@@ -19,6 +19,9 @@ package org.springframework.core.env;
 import org.springframework.lang.Nullable;
 
 /**
+ *
+ * 主要用于解析属性
+ *
  * Interface for resolving properties against any underlying source.
  *
  * @author Chris Beams
@@ -77,6 +80,8 @@ public interface PropertyResolver {
 	<T> T getProperty(String key, Class<T> targetType, T defaultValue);
 
 	/**
+	 * 返回属性，不能为null
+	 *
 	 * Return the property value associated with the given key (never {@code null}).
 	 * @throws IllegalStateException if the key cannot be resolved
 	 * @see #getRequiredProperty(String, Class)
@@ -91,6 +96,8 @@ public interface PropertyResolver {
 	<T> T getRequiredProperty(String key, Class<T> targetType) throws IllegalStateException;
 
 	/**
+	 * 解析${key}占位符属性，把${key}替换为getProperty(key)，如果占位符不可解析，且没有默认值的话，直接原样返回
+	 *
 	 * Resolve ${...} placeholders in the given text, replacing them with corresponding
 	 * property values as resolved by {@link #getProperty}. Unresolvable placeholders with
 	 * no default value are ignored and passed through unchanged.
@@ -102,6 +109,8 @@ public interface PropertyResolver {
 	String resolvePlaceholders(String text);
 
 	/**
+	 * 解析${key}占位符属性，把${key}替换为getProperty(key)，如果占位符不可解析，且没有默认值的话，抛出IllegalArgumentException
+	 *
 	 * Resolve ${...} placeholders in the given text, replacing them with corresponding
 	 * property values as resolved by {@link #getProperty}. Unresolvable placeholders with
 	 * no default value will cause an IllegalArgumentException to be thrown.

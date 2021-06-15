@@ -20,6 +20,15 @@ import java.io.IOException;
 import java.io.InputStream;
 
 /**
+ * 代表InputStream资源的简单接口
+ *
+ * 它是Resource的基础接口，但是Resource根据有扩展性
+ *
+ * 作为单用途流，InputStreamResource 更够被用于任何
+ * 指定的InputStream对象，Spring的ByteArrayResource或任
+ * 何基于文件的资源实现，都可以作为一个具体的子类，允许读取底
+ * 层的资源流多次，例如作为邮件附件的抽象内容流就很合适
+ *
  * Simple interface for objects that are sources for an {@link InputStream}.
  *
  * <p>This is the base interface for Spring's more extensive {@link Resource} interface.
@@ -41,6 +50,10 @@ import java.io.InputStream;
 public interface InputStreamSource {
 
 	/**
+	 * 返回代表底层资源内容的InputStream对象，希望每次调用都创建一个全新的流，
+	 * 当你考虑到类似于JavaMail的API时，这个要求就尤为重要了，创建Mail附件时
+	 * 需要多次读取流资源，返回值不能为null
+	 *
 	 * Return an {@link InputStream} for the content of an underlying resource.
 	 * <p>It is expected that each call creates a <i>fresh</i> stream.
 	 * <p>This requirement is particularly important when you consider an API such
