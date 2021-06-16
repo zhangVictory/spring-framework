@@ -32,6 +32,8 @@ import org.springframework.util.ResourceUtils;
 import org.springframework.util.StringUtils;
 
 /**
+ * java.net.URL定位器的资源实现。支持解析为URL，在使用“File:”协议时也支持解析为文件
+ *
  * {@link Resource} implementation for {@code java.net.URL} locators.
  * Supports resolution as a {@code URL} and also as a {@code File} in
  * case of the {@code "file:"} protocol.

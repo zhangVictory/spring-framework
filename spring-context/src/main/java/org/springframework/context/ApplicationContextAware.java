@@ -20,6 +20,19 @@ import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.Aware;
 
 /**
+ *
+ * 要由任何对象实现的接口，该对象希望被通知其运行的ApplicationContext。
+ *
+ * 例如，当一个对象需要访问一组协作bean时，实现这个接口是有意义的。注意，通过bean引用进行配置比仅仅为了bean查找而实现这个接口更好。
+ *
+ * 如果对象需要访问文件资源，也可以实现此接口，例如，要调用getResource、要发布应用程序事件或需要访问MessageSource。但是，在这种特定场景中，最好实现更具体的ResourceLoaderWare、ApplicationEventPublisherAware或MessageSourceAware接口。
+ *
+ * 请注意，文件资源依赖关系也可以作为resource类型的bean属性公开，由bean工厂通过具有自动类型转换的字符串填充。这样就不需要为了访问特定的文件资源而实现任何回调接口。
+ *
+ * ApplicationObjectSupport是应用程序对象的一个方便的基类，实现了这个接口。
+ *
+ * 有关所有bean生命周期方法的列表，请参阅beanfactoryjavadocs。
+ *
  * Interface to be implemented by any object that wishes to be notified
  * of the {@link ApplicationContext} that it runs in.
  *

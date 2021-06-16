@@ -26,6 +26,9 @@ import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
 /**
+ * 主要用来解析路径，解析占位符等
+ * 持有一个resourceLoader引用，默认使用DefaultResourceLoader来执行复杂的工作
+ *
  * {@link java.beans.PropertyEditor Editor} for {@link Resource}
  * descriptors, to automatically convert {@code String} locations
  * e.g. {@code file:C:/myfile.txt} or {@code classpath:myfile.txt} to

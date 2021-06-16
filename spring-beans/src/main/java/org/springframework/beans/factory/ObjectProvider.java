@@ -25,6 +25,13 @@ import org.springframework.beans.BeansException;
 import org.springframework.lang.Nullable;
 
 /**
+ * ObjectFactory的一个变种，专门为注入点设计，允许编程的可选性和宽大而非唯一的处理。
+ *
+ * 从5.1开始，这个接口扩展了Iterable并提供流支持。因此，它可以用于for循环，提供
+ * Iterable.forEach（java.util.function.Consumer<？super T>）迭代，并允许
+ * 集合样式的stream（）访问
+ *
+ *
  * A variant of {@link ObjectFactory} designed specifically for injection points,
  * allowing for programmatic optionality and lenient not-unique handling.
  *

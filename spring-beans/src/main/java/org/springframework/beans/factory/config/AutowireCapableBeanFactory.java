@@ -26,6 +26,23 @@ import org.springframework.beans.factory.NoUniqueBeanDefinitionException;
 import org.springframework.lang.Nullable;
 
 /**
+ * BeanFactory接口的扩展
+ * 将由能够自动装配的bean工厂实现，前提是他们希望为现有bean实例公开此功能。
+ *
+ * BeanFactory的这个子接口并不打算在正常的应用程序代码中使用：对于典型的用例，
+ * 请坚持使用BeanFactory或ListableBeanFactory。
+ *
+ * 其他框架的集成代码可以利用这个接口连接和填充Spring不控制其生命周期的现有bean
+ * 实例。例如，这对于WebWork操作和Tapestry页面对象特别有用。
+ *
+ * 注意，这个接口不是由ApplicationContext facades实现的，因为它很少被应用程序
+ * 代码使用。也就是说，它也可以从应用程序上下文获得，可以通过ApplicationContext
+ * 的ApplicationContext.getAutowireCapableBeanFactory（）方法访问。
+ *
+ * 您还可以实现BeanFactoryAware接口，该接口甚至在ApplicationContext中运行时也
+ * 会公开内部BeanFactory，以便访问AutowireCapableBeanFactory：只需将传入的
+ * BeanFactory强制转换为AutowireCapableBeanFactory。
+ *
  * Extension of the {@link org.springframework.beans.factory.BeanFactory}
  * interface to be implemented by bean factories that are capable of
  * autowiring, provided that they want to expose this functionality for
@@ -125,6 +142,12 @@ public interface AutowireCapableBeanFactory extends BeanFactory {
 	//-------------------------------------------------------------------------
 
 	/**
+	 * 完全创建给定类的新bean实例。
+	 *
+	 * 执行bean的完全初始化，包括所有适用的BeanPostProcessor。
+	 *
+	 * 注意：这是为了创建一个新实例、填充带注释的字段和方法以及应用所有标准bean初始化回调。它并不意味着传统的按名称或按类型自动连接属性；使用createBean（Class，int，boolean）实现这些目的
+	 *
 	 * Fully create a new bean instance of the given class.
 	 * <p>Performs full initialization of the bean, including all applicable
 	 * {@link BeanPostProcessor BeanPostProcessors}.
@@ -139,6 +162,10 @@ public interface AutowireCapableBeanFactory extends BeanFactory {
 	<T> T createBean(Class<T> beanClass) throws BeansException;
 
 	/**
+	 * 通过应用实例化后回调和bean属性后处理（例如，对于注释驱动的注入），填充给定的bean实例。
+	 *
+	 * 注意：这基本上是为了（重新）填充带注释的字段和方法，无论是新实例还是反序列化实例。它并不意味着传统的名称或类型的自动生成属性；使用autowireBeanProperties（java.lang.Object，int，boolean）实现这些目的
+	 *
 	 * Populate the given bean instance through applying after-instantiation callbacks
 	 * and bean property post-processing (e.g. for annotation-driven injection).
 	 * <p>Note: This is essentially intended for (re-)populating annotated fields and

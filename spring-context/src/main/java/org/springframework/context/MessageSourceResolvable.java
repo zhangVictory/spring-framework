@@ -19,6 +19,10 @@ package org.springframework.context;
 import org.springframework.lang.Nullable;
 
 /**
+ * 适用于MessageSource中消息解析的对象的接口。
+ *
+ * Spring自己的验证错误类实现了这个接口
+ *
  * Interface for objects that are suitable for message resolution in a
  * {@link MessageSource}.
  *
@@ -33,6 +37,8 @@ import org.springframework.lang.Nullable;
 public interface MessageSourceResolvable {
 
 	/**
+	 * 按尝试的顺序返回用于解析此消息的代码。因此，最后一个代码将是默认代码。
+	 *
 	 * Return the codes to be used to resolve this message, in the order that
 	 * they should get tried. The last code will therefore be the default one.
 	 * @return a String array of codes which are associated with this message
@@ -41,6 +47,10 @@ public interface MessageSourceResolvable {
 	String[] getCodes();
 
 	/**
+	 * 返回用于解析此消息的参数数组。
+	 *
+	 * 默认实现只返回null。
+	 *
 	 * Return the array of arguments to be used to resolve this message.
 	 * <p>The default implementation simply returns {@code null}.
 	 * @return an array of objects to be used as parameters to replace
@@ -53,6 +63,11 @@ public interface MessageSourceResolvable {
 	}
 
 	/**
+	 * 返回用于解析此消息的默认消息。
+	 *
+	 * 默认实现只返回null。请注意，默认消息可能与主消息代码（getCodes（））相同，后者有效地强制此特定消息的AbstractMessageSource.setUseCodeAsDefaultMessage（布尔值）。
+	 *
+	 *
 	 * Return the default message to be used to resolve this message.
 	 * <p>The default implementation simply returns {@code null}.
 	 * Note that the default message may be identical to the primary

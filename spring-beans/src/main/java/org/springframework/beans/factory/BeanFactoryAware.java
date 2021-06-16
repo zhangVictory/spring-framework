@@ -19,6 +19,10 @@ package org.springframework.beans.factory;
 import org.springframework.beans.BeansException;
 
 /**
+ * 如果一个bean想要知道创建它的bean工厂，那就需要实现这个接口
+ * bean可以通过bean工厂查看协作的bean，大多数bean会选择通过bean属性或者构造函数参数
+ * 来接受协作bean的引用
+ *
  * Interface to be implemented by beans that wish to be aware of their
  * owning {@link BeanFactory}.
  *

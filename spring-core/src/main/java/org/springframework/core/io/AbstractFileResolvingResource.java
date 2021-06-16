@@ -31,6 +31,10 @@ import java.nio.file.StandardOpenOption;
 import org.springframework.util.ResourceUtils;
 
 /**
+ * 抽象的文件解析资源
+ *
+ * 是一个把URL解析成文件句柄的抽象类，
+ *
  * Abstract base class for resources which resolve URLs into File references,
  * such as {@link UrlResource} or {@link ClassPathResource}.
  *

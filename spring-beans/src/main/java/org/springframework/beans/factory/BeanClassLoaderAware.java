@@ -17,6 +17,9 @@
 package org.springframework.beans.factory;
 
 /**
+ * 如果一个对象想要获取到创建它的类加载器，那么需要实现这个接口，
+ * 主要由框架的类来实现
+ *
  * Callback that allows a bean to be aware of the bean
  * {@link ClassLoader class loader}; that is, the class loader used by the
  * present bean factory to load bean classes.
