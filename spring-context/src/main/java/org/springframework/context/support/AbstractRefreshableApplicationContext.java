@@ -26,6 +26,9 @@ import org.springframework.context.ApplicationContextException;
 import org.springframework.lang.Nullable;
 
 /**
+ * 是支持多次调用refresh调用的ApplicationContext的基类，每一次调用refersh方法
+ * 都会创建一个新的bean工厂对象，通常这样的一个工厂需要从配置文件中加载bean定义
+ *
  * Base class for {@link org.springframework.context.ApplicationContext}
  * implementations which are supposed to support multiple calls to {@link #refresh()},
  * creating a new internal bean factory instance every time.
@@ -221,6 +224,8 @@ public abstract class AbstractRefreshableApplicationContext extends AbstractAppl
 	}
 
 	/**
+	 * 加载bean的定义到指定的bean工厂中，通常是委派给多个bean definition readers来完成
+	 *
 	 * Load bean definitions into the given bean factory, typically through
 	 * delegating to one or more bean definition readers.
 	 * @param beanFactory the bean factory to load bean definitions into

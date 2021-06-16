@@ -89,6 +89,20 @@ import org.springframework.util.ObjectUtils;
 import org.springframework.util.ReflectionUtils;
 
 /**
+ * ApplicationContext接口的抽象实现，模板方法设计模式
+ * 相比一个普通的Bean工厂，ApplicationContext应该探测定义在其内部bean工厂的特殊的bean，
+ * ApplicationContext会自动注册 BeanFactoryPostProcessor，BeanPostProcessor，ApplicationListener
+ * 它们都定义为上下文中的bean。
+ *
+ * MessageSource也会作为一个bean被提供，名称是messageSource，否则消息的解析被委派给其父上下文
+ * 此外，应用程序事件的multicaster可以作为上下文中类型为applicationEventMulticaster的 名称为
+ * “applicationEventMulticaster”的bean提供；否则，将使用SimpleApplicationEventMulticaster
+ * 类型的默认multicaster。
+ *
+ * 通过扩展DefaultResourceLoader实现资源加载。因此，将非URL资源路径视为类路径资源（支持包含包路径的
+ * 完整类路径资源名称，例如“mypackage/myresource.dat”），除非在子类中重写DefaultResourceLoader.
+ * getResourceByPath（java.lang.String）方法。
+ *
  * Abstract implementation of the {@link org.springframework.context.ApplicationContext}
  * interface. Doesn't mandate the type of storage used for configuration; simply
  * implements common context functionality. Uses the Template Method design pattern,
