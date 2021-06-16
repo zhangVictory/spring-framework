@@ -92,6 +92,10 @@ package org.springframework.core.env;
 public interface Environment extends PropertyResolver {
 
 	/**
+	 * 获取当前环境下，所有被显示激活的profile集合，可以通过设置spring.profiles.active系统属性
+	 * 或者调用ConfigurableEnvironment的setActiveProfiles方法来激活指定的profile，如果没有
+	 * profile被显示的激活，那么getDefaultProfiles方法返回的profile集合将被自动的激活
+	 *
 	 * Return the set of profiles explicitly made active for this environment. Profiles
 	 * are used for creating logical groupings of bean definitions to be registered
 	 * conditionally, for example based on deployment environment. Profiles can be
@@ -107,6 +111,8 @@ public interface Environment extends PropertyResolver {
 	String[] getActiveProfiles();
 
 	/**
+	 * 获取默认激活的profile集合
+	 *
 	 * Return the set of profiles to be active by default when no active profiles have
 	 * been set explicitly.
 	 * @see #getActiveProfiles
@@ -116,6 +122,9 @@ public interface Environment extends PropertyResolver {
 	String[] getDefaultProfiles();
 
 	/**
+	 * 判断给定的profile名称是否是激活的，如果没有显示激活的，那么返回给定的profile是否在默认激活列表
+	 * 如profile的名称是！开头，则表示相反的逻辑
+	 *
 	 * Return whether one or more of the given profiles is active or, in the case of no
 	 * explicit active profiles, whether one or more of the given profiles is included in
 	 * the set of default profiles. If a profile begins with '!' the logic is inverted,
@@ -133,6 +142,8 @@ public interface Environment extends PropertyResolver {
 	boolean acceptsProfiles(String... profiles);
 
 	/**
+	 * 判断getActiveProfiles()返回的profile集合是否匹配给定的Profiles
+	 *
 	 * Return whether the {@linkplain #getActiveProfiles() active profiles}
 	 * match the given {@link Profiles} predicate.
 	 */

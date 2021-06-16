@@ -20,6 +20,8 @@ import org.springframework.beans.factory.Aware;
 import org.springframework.core.env.Environment;
 
 /**
+ * 实现这个接口的bean可以在运行时获取到Environment对象
+ *
  * Interface to be implemented by any bean that wishes to be notified
  * of the {@link Environment} that it runs in.
  *

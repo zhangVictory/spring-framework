@@ -19,6 +19,19 @@ package org.springframework.core.env;
 import java.util.Map;
 
 /**
+ * 设置大部分Environment实例都需要实现的接口，提供了设置激活和默认的profile，以及操作底层资源的工具
+ * 通过ConfigurablePropertyResolver接口，允许客户端设置必要属性，验证必要属性，定制类型转换服务
+ *
+ * 属性资源可能被移除，重排序，或者替换，额外的属性资源可能通过getPropertySources方法返回的
+ * MutablePropertySources对象被添加，下面的例子针对StandardEnvironment实现，除了特定的属性不同之外
+ * 对任何实现大致通用，
+ *
+ * 例子略
+ *
+ * 当一个Environment对象被一个ApplicationContext对象使用的时候，在ApplicationContext的refresh方法
+ * 调用之前，对属性资源进行操作是重要的。它保证了容器初始化时，所有的属性资源都是可用的，包括PropertySourcesPlaceholderConfigurer
+ * 对象使用的资源
+ *
  * Configuration interface to be implemented by most if not all {@link Environment} types.
  * Provides facilities for setting active and default profiles and manipulating underlying
  * property sources. Allows clients to set and validate required properties, customize the

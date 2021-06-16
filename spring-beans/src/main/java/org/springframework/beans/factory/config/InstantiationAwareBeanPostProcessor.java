@@ -23,6 +23,16 @@ import org.springframework.beans.PropertyValues;
 import org.springframework.lang.Nullable;
 
 /**
+ * 可以感知实例化的后置bean处理器
+ *
+ *
+ * 这个子接口提供了在bean实例化之前之后的方法回调，（实例化之后，但是在属性设置或自动装配之前）
+ * 主要用于抑制特定的bean的默认实例化，例如创建特定资源（池化，懒加载等）的代理，或者是实现额外的
+ * 注入策略，例如字段注入
+ *
+ * 这是特殊用途的接口，主要用于框架内部使用，推荐尽可能实现BeanPostProcessor接口，或者为了屏蔽
+ * 扩展此接口，可以派生自InstantiationAwareBeanPostProcessorAdapter
+ *
  * Subinterface of {@link BeanPostProcessor} that adds a before-instantiation callback,
  * and a callback after instantiation but before explicit properties are set or
  * autowiring occurs.
@@ -95,6 +105,8 @@ public interface InstantiationAwareBeanPostProcessor extends BeanPostProcessor {
 	}
 
 	/**
+	 * 在工厂应用其属性之前调用这个方法
+	 *
 	 * Post-process the given property values before the factory applies them
 	 * to the given bean, without any need for property descriptors.
 	 * <p>Implementations should return {@code null} (the default) if they provide a custom

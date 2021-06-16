@@ -26,6 +26,8 @@ package org.springframework.core.env;
  * ConfigurableApplicationContext重新定义了该方法，并且返回窄化的ConfigurableEnvironment对象
  * 这个对象是可以编辑的Environment对象。
  *
+ * 实现这个接口的bean可以提供Environment对象
+ *
  * Interface indicating a component that contains and exposes an {@link Environment} reference.
  *
  * <p>All Spring application contexts are EnvironmentCapable, and the interface is used primarily

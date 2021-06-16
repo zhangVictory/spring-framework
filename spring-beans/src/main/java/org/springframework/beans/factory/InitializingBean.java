@@ -17,6 +17,12 @@
 package org.springframework.beans.factory;
 
 /**
+ * 这个接口应该被那些 需要当所有的属性都被一个BeanFactory设置完成时，需要做出反应的bean实现
+ * 例如执行自定义初始化，或者是仅仅的检查那些必要的属性
+ *
+ * 一种替代的方式是，指定一个自定义的init-method，例如在XML中，所有的bwan声明周期方法，请参阅
+ * BeanFactory文档
+ *
  * Interface to be implemented by beans that need to react once all their properties
  * have been set by a {@link BeanFactory}: e.g. to perform custom initialization,
  * or merely to check that all mandatory properties have been set.
@@ -34,6 +40,9 @@ package org.springframework.beans.factory;
 public interface InitializingBean {
 
 	/**
+	 * 当所有的属性都被设置时，且满足BeanFactoryAware，ApplicationContextAware等接口，由BeanFactory调用的
+	 * 这个方法允许bean实例对其整体的配置进行校验，并进行最终的初始化
+	 *
 	 * Invoked by the containing {@code BeanFactory} after it has set all bean properties
 	 * and satisfied {@link BeanFactoryAware}, {@code ApplicationContextAware} etc.
 	 * <p>This method allows the bean instance to perform validation of its overall

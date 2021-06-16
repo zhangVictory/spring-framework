@@ -19,6 +19,8 @@ package org.springframework.core.env;
 import java.util.function.Predicate;
 
 /**
+ * 主要用来支持Environment接口的acceptsProfiles(Profiles)方法的
+ *
  * Profile predicate that may be {@linkplain Environment#acceptsProfiles(Profiles)
  * accepted} by an {@link Environment}.
  *

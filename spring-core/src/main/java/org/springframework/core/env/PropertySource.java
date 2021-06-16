@@ -24,6 +24,18 @@ import org.springframework.util.Assert;
 import org.springframework.util.ObjectUtils;
 
 /**
+ * 表示key-value的属性对资源的基类，底层的getSource方法将封装任何属性类型，例如Properties，Map
+ * ServletContext，ServletConfig等
+ *
+ * PropertySource对象通常不单独使用，而是通过一个PropertySources对象，它可以聚合资源属性，并结合
+ * 一个可以在PropertySources集合上执行基于优先级的搜索的PropertyResolver的实现，
+ *
+ * PropertySource的唯一标识不是基于封装的资源内容的，而是单独基于getName方法，在集合上下文中操作
+ * PropertySource是有用的，参考MutablePropertySources的named方法和toString方法
+ *
+ * 当使用@Configuration注解时，@PropertySource注解提供了一个方便的，声明式的添加属性资源到Environment
+ * 对象的途径
+ *
  * Abstract base class representing a source of name/value property pairs. The underlying
  * {@linkplain #getSource() source object} may be of any type {@code T} that encapsulates
  * properties. Examples include {@link java.util.Properties} objects, {@link java.util.Map}
@@ -149,6 +161,7 @@ public abstract class PropertySource<T> {
 	}
 
 	/**
+	 * 生成一个简洁的描述，
 	 * Produce concise output (type and name) if the current log level does not include
 	 * debug. If debug is enabled, produce verbose output including the hash code of the
 	 * PropertySource instance and every name/value property pair.
@@ -170,6 +183,11 @@ public abstract class PropertySource<T> {
 
 
 	/**
+	 * 返回一个PropertySource的实现，主要用于集合比较的目的
+	 * 主要是内部使用，
+	 * 返回的PropertySource实现，如果调用了除了equals hashCode 和toString之外的方法时，抛出
+	 * UnsupportedOperationException
+	 *
 	 * Return a {@code PropertySource} implementation intended for collection comparison purposes only.
 	 * <p>Primarily for internal use, but given a collection of {@code PropertySource} objects, may be
 	 * used as follows:
@@ -192,6 +210,11 @@ public abstract class PropertySource<T> {
 
 
 	/**
+	 * 当实际的属性资源在application context创建时，不能及时的初始化时，充当一个占位的作用
+	 * 例如，基于ServletContext的属性资源必须等待直到ServletContext可用时，才可以初始化。
+	 *
+	 * 在这种情况下，StubPropertySource起到占位的作用，在后续的refresh的时候，再替换掉
+	 *
 	 * {@code PropertySource} to be used as a placeholder in cases where an actual
 	 * property source cannot be eagerly initialized at application context
 	 * creation time.  For example, a {@code ServletContext}-based property source
@@ -221,6 +244,8 @@ public abstract class PropertySource<T> {
 
 
 	/**
+	 * 主要用于集合比较的一个实现
+	 *
 	 * A {@code PropertySource} implementation intended for collection comparison
 	 * purposes.
 	 *
