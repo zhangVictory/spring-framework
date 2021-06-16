@@ -20,6 +20,9 @@ import java.util.EventListener;
 import java.util.function.Consumer;
 
 /**
+ * 被应用事件监听器实现的接口，观察者模式
+ *
+ *
  * Interface to be implemented by application event listeners.
  *
  * <p>Based on the standard {@code java.util.EventListener} interface

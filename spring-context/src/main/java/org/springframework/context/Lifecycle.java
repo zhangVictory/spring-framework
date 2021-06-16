@@ -17,6 +17,14 @@
 package org.springframework.context;
 
 /**
+ * 定义启动/停止生命周期控制方法的通用接口。这方面的典型用例是控制异步处理。注意：这个接口并不意味着特定的自动启动语义。为此，请考虑实施SmartLifecycle。
+ *
+ * 可以由组件（通常是在Spring上下文中定义的springbean）和容器（通常是springapplicationcontext本身）实现。容器将启动/停止信号传播到每个容器中应用的所有组件，例如运行时的停止/重新启动场景。
+ *
+ * 可用于直接调用或通过JMX进行管理操作。在后一种情况下，MBeanExporter通常使用InterfaceBasedMBeanInfoAssembler定义，从而限制活动控制组件对生命周期接口的可见性。
+ *
+ * 请注意，当前的生命周期接口仅在顶级单例bean上受支持。在任何其他组件上，生命周期接口都不会被检测到，因此会被忽略。另外，请注意，扩展的SmartLifecycle接口提供了与应用程序上下文的启动和关闭阶段的复杂集成
+ *
  * A common interface defining methods for start/stop lifecycle control.
  * The typical use case for this is to control asynchronous processing.
  * <b>NOTE: This interface does not imply specific auto-startup semantics.
