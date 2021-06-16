@@ -21,6 +21,58 @@ import org.springframework.core.ResolvableType;
 import org.springframework.lang.Nullable;
 
 /**
+ * 访问一个spring bean容器的根接口，提供了一个bean容器的基础视图，
+ * 进一步的接口，例如ListableBeanFactory和ConfigurableBeanFactory，
+ * 是为了特定的应用。
+ *
+ * 持有很多的bean定义的类，需要实现这个接口。bean容器中的每个对象都通过一个
+ * 唯一的String 名称来区别。bean容器要么返回一个独立的对象，要么返回一个单例的
+ * 对象，具体返回什么，取决于bean容器的配置。从spring2.0以来，特定的Context支持
+ * 更多的scopes
+ *
+ * 这种做法的好处是，BeanFactory是一个应用的中心注册表和集中化配置，单个的bean不再需要读取
+ * 属性文件。
+ *
+ * 通过构造器或者set方法依赖注入是好的选择，spring的依赖注入是通过BeanFactory及其子接口实现的
+ *
+ * 正常情况下，BeanFactory会加从XML配置文件中加载bean的定义，然后配置bean。bean定义如何存储没
+ * 有限制，例如：LDAP, RDBMS, XML,等，支持bean之间相互引用是被鼓励的。
+ *
+ * 与ListableBeanFactory的方法相比，如果当前对象是一个HierarchicalBeanFactory，那么多有的方法
+ * 都需要检查父工厂，如果一个bean在当前工厂没用找到，那么会直接访问其父工厂，当前工厂中的bean，会覆盖
+ * 所有父工厂中的同名bean。
+ *
+ * bean工厂的实现，需要尽可能的支持标准的bean生命周期接口，完整的初始化方法以及其顺序如下：
+ * <ol>
+ * <li>BeanNameAware's {@code setBeanName}
+ * <li>BeanClassLoaderAware's {@code setBeanClassLoader}
+ * <li>BeanFactoryAware's {@code setBeanFactory}
+ * <li>EnvironmentAware's {@code setEnvironment}
+ * <li>EmbeddedValueResolverAware's {@code setEmbeddedValueResolver}
+ * <li>ResourceLoaderAware's {@code setResourceLoader}
+ * (only applicable when running in an application context)
+ * <li>ApplicationEventPublisherAware's {@code setApplicationEventPublisher}
+ * (only applicable when running in an application context)
+ * <li>MessageSourceAware's {@code setMessageSource}
+ * (only applicable when running in an application context)
+ * <li>ApplicationContextAware's {@code setApplicationContext}
+ * (only applicable when running in an application context)
+ * <li>ServletContextAware's {@code setServletContext}
+ * (only applicable when running in a web application context)
+ * <li>{@code postProcessBeforeInitialization} methods of BeanPostProcessors
+ * <li>InitializingBean's {@code afterPropertiesSet}
+ * <li>a custom init-method definition
+ * <li>{@code postProcessAfterInitialization} methods of BeanPostProcessors
+ * </ol>
+ *
+ * 当bean工厂销毁后，需要执行
+ * <ol>
+ * <li>{@code postProcessBeforeDestruction} methods of DestructionAwareBeanPostProcessors
+ * <li>DisposableBean's {@code destroy}
+ * <li>a custom destroy-method definition
+ * </ol>
+ *
+ *
  * The root interface for accessing a Spring bean container.
  *
  * <p>This is the basic client view of a bean container;

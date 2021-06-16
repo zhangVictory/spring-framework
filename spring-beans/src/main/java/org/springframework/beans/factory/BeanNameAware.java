@@ -17,6 +17,8 @@
 package org.springframework.beans.factory;
 
 /**
+ * 如果一个bean想要知道自己的名称，那他需要实现这接口，一个bean依赖于其名称是不
+ * 推荐的，
  * Interface to be implemented by beans that want to be aware of their
  * bean name in a bean factory. Note that it is not usually recommended
  * that an object depends on its bean name, as this represents a potentially

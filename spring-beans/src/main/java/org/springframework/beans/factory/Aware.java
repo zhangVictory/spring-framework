@@ -17,7 +17,7 @@
 package org.springframework.beans.factory;
 
 /**
- * Aware表示意思到，察觉到等含义
+ * Aware表示意识到，察觉到等含义
  * 这个接口表示一个bean有资格被spring容器中特定的框架对象通过一个回调的方式调用，实际的方法由具
  * 体的子接口来指定，通常是只有一个接受单个参数并返回void的方法组成
  *
