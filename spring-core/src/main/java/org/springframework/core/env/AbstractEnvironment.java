@@ -34,7 +34,7 @@ import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 
 /**
- * 环境实现的抽象基类。支持保留默认配置文件名称的概念，并允许通过活动的\u配置文件\u属性\u名称和默认的\u配置文件\u属性\u名称属性指定活动的和默认的配置文件。
+ * 环境实现的抽象基类。支持保留默认配置文件名称的概念，并允许通过活动的配置文件属性名称和默认的配置文件属性名称属性指定活动的和默认的配置文件。
  *
  * 具体的子类主要不同于它们默认添加的PropertySource对象。AbstractEnvironment不添加任何内容。子类应该通过受保护的customizePropertySources（MutablePropertySources）钩子提供属性源，而客户端应该使用ConfigurableEnvironment.getPropertySources（）和MutablePropertySources API进行自定义。有关用法示例，请参阅ConfigurableEnvironment javadoc。
  *
@@ -575,6 +575,7 @@ public abstract class AbstractEnvironment implements ConfigurableEnvironment {
 		this.propertyResolver.setRequiredProperties(requiredProperties);
 	}
 
+	//委派给propertyResolver验证
 	@Override
 	public void validateRequiredProperties() throws MissingRequiredPropertiesException {
 		this.propertyResolver.validateRequiredProperties();

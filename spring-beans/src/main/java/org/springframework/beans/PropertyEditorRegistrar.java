@@ -17,6 +17,9 @@
 package org.springframework.beans;
 
 /**
+ *
+ * 属性编辑器登记员，主要是用来指定注册属性编辑器的策略
+ *
  * Interface for strategies that register custom
  * {@link java.beans.PropertyEditor property editors} with a
  * {@link org.springframework.beans.PropertyEditorRegistry property editor registry}.
