@@ -29,6 +29,14 @@ import org.springframework.lang.Nullable;
  * 是支持多次调用refresh调用的ApplicationContext的基类，每一次调用refersh方法
  * 都会创建一个新的bean工厂对象，通常这样的一个工厂需要从配置文件中加载bean定义
  *
+ * 唯一需要子类实现的方法是loadBeanDefinitions方法，在每次刷新的时候被调用，具体的
+ * 子类应该把bean的定义加载到给定的DefaultListableBeanFactory中，通常是委派给一个
+ * 或多个Bean definition reader
+ *
+ * 对于WebApplicationContexts有一个相似的基类，AbstractRefreshableWebApplicationContext
+ * 提供了相同的子类策略，但是额外预实现了Web环境中的所有上下文功能，这也是一种预定义的接收配置路径
+ * 的方式
+ *
  * Base class for {@link org.springframework.context.ApplicationContext}
  * implementations which are supposed to support multiple calls to {@link #refresh()},
  * creating a new internal bean factory instance every time.
