@@ -21,6 +21,7 @@ import java.util.Iterator;
 import java.util.function.Supplier;
 
 /**
+ * 这个类啥也不做，在启动的时候，此变体设计用于最小化开销，并且不记录事件。
  * Default "no op" {@code ApplicationStartup} implementation.
  *
  * <p>This variant is designed for minimal overhead and does not record events.

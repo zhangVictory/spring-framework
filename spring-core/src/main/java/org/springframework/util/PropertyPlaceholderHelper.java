@@ -28,6 +28,9 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.lang.Nullable;
 
 /**
+ * 处理那些具有占位符的字符串的工具类库
+ *
+ * 被替换的占位符的值可以通过Properties提供，或者实现PlaceholderResolver接口（策略模式）
  * Utility class for working with Strings that have placeholder values in them. A placeholder takes the form
  * {@code ${name}}. Using {@code PropertyPlaceholderHelper} these placeholders can be substituted for
  * user-supplied values. <p> Values for substitution can be supplied using a {@link Properties} instance or
@@ -124,6 +127,13 @@ public class PropertyPlaceholderHelper {
 		return parseStringValue(value, placeholderResolver, null);
 	}
 
+	/**
+	 *
+	 * @param value 等待解析的字符串
+	 * @param placeholderResolver 占位符值提供器
+	 * @param visitedPlaceholders 已经被访问的占位符 主要用于判断占位符的循环引用
+	 * @return 解析后的字符串
+	 */
 	protected String parseStringValue(
 			String value, PlaceholderResolver placeholderResolver, @Nullable Set<String> visitedPlaceholders) {
 
@@ -146,9 +156,13 @@ public class PropertyPlaceholderHelper {
 							"Circular placeholder reference '" + originalPlaceholder + "' in property definitions");
 				}
 				// Recursive invocation, parsing placeholders contained in the placeholder key.
+				//递归调用解析，类似于解析这样的 ${name-${number}.log}
 				placeholder = parseStringValue(placeholder, placeholderResolver, visitedPlaceholders);
 				// Now obtain the value for the fully resolved key...
+				//取出对应的值
 				String propVal = placeholderResolver.resolvePlaceholder(placeholder);
+
+				//这一部分是处理类似于 ${name:defaultValue}这样的占位符，当name表示的值不存在时，使用默认值
 				if (propVal == null && this.valueSeparator != null) {
 					int separatorIndex = placeholder.indexOf(this.valueSeparator);
 					if (separatorIndex != -1) {
@@ -163,11 +177,13 @@ public class PropertyPlaceholderHelper {
 				if (propVal != null) {
 					// Recursive invocation, parsing placeholders contained in the
 					// previously resolved placeholder value.
+					//有可能取出来的值中也再次含有占位符，所以递归解析，最后做替换
 					propVal = parseStringValue(propVal, placeholderResolver, visitedPlaceholders);
 					result.replace(startIndex, endIndex + this.placeholderSuffix.length(), propVal);
 					if (logger.isTraceEnabled()) {
 						logger.trace("Resolved placeholder '" + placeholder + "'");
 					}
+					//找到下一个需要替换的占位符
 					startIndex = result.indexOf(this.placeholderPrefix, startIndex + propVal.length());
 				}
 				else if (this.ignoreUnresolvablePlaceholders) {
@@ -187,6 +203,12 @@ public class PropertyPlaceholderHelper {
 		return result.toString();
 	}
 
+	/**
+	 * 找到占位符结尾的位置
+	 * @param buf
+	 * @param startIndex
+	 * @return
+	 */
 	private int findPlaceholderEndIndex(CharSequence buf, int startIndex) {
 		int index = startIndex + this.placeholderPrefix.length();
 		int withinNestedPlaceholder = 0;

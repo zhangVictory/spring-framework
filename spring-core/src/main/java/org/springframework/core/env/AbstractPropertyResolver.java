@@ -202,6 +202,7 @@ public abstract class AbstractPropertyResolver implements ConfigurablePropertyRe
 		return doResolvePlaceholders(text, this.nonStrictHelper);
 	}
 
+	//此处其实是把解析工作再次委派给PropertyPlaceholderHelper
 	@Override
 	public String resolveRequiredPlaceholders(String text) throws IllegalArgumentException {
 		if (this.strictHelper == null) {
@@ -230,6 +231,7 @@ public abstract class AbstractPropertyResolver implements ConfigurablePropertyRe
 				resolvePlaceholders(value) : resolveRequiredPlaceholders(value));
 	}
 
+	//传递了前缀${ 后缀 }， 默认值分隔符：  ignoreUnresolvablePlaceholders false
 	private PropertyPlaceholderHelper createPlaceholderHelper(boolean ignoreUnresolvablePlaceholders) {
 		return new PropertyPlaceholderHelper(this.placeholderPrefix, this.placeholderSuffix,
 				this.valueSeparator, ignoreUnresolvablePlaceholders);
@@ -240,6 +242,7 @@ public abstract class AbstractPropertyResolver implements ConfigurablePropertyRe
 	}
 
 	/**
+	 * 必要时进行属性类型转换，例如转成String
 	 * Convert the given value to the specified target type, if necessary.
 	 * @param value the original property value
 	 * @param targetType the specified target type for property retrieval
@@ -267,6 +270,8 @@ public abstract class AbstractPropertyResolver implements ConfigurablePropertyRe
 
 
 	/**
+	 * 根据属性名称获取值，但是不解析内嵌的占位符
+	 *
 	 * Retrieve the specified property as a raw String,
 	 * i.e. without resolution of nested placeholders.
 	 * @param key the property name to resolve

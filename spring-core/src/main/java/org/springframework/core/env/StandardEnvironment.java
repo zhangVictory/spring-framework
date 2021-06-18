@@ -17,6 +17,12 @@
 package org.springframework.core.env;
 
 /**
+ * 应用在非web环境下的Environment实现，除了ConfigurableEnvironment常用的功能以外，它还提供了
+ * getSystemProperties和getSystemEnvironment方法，
+ *
+ * 也就是说如果一个key（xyz）同时在JVM系统属性和系统环境变量中同时出现，那么JVM系统属性的xyz值会被
+ * 通过调用environment.getProperty("xyz")返回
+ *
  * {@link Environment} implementation suitable for use in 'standard' (i.e. non-web)
  * applications.
  *
@@ -77,6 +83,7 @@ public class StandardEnvironment extends AbstractEnvironment {
 
 
 	/**
+	 * 重写父类逻辑，自定义属性集合，系统属性优先级高于系统环境变量
 	 * Customize the set of property sources with those appropriate for any standard
 	 * Java environment:
 	 * <ul>

@@ -34,6 +34,10 @@ import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 
 /**
+ * 环境实现的抽象基类。支持保留默认配置文件名称的概念，并允许通过活动的\u配置文件\u属性\u名称和默认的\u配置文件\u属性\u名称属性指定活动的和默认的配置文件。
+ *
+ * 具体的子类主要不同于它们默认添加的PropertySource对象。AbstractEnvironment不添加任何内容。子类应该通过受保护的customizePropertySources（MutablePropertySources）钩子提供属性源，而客户端应该使用ConfigurableEnvironment.getPropertySources（）和MutablePropertySources API进行自定义。有关用法示例，请参阅ConfigurableEnvironment javadoc。
+ *
  * Abstract base class for {@link Environment} implementations. Supports the notion of
  * reserved default profile names and enables specifying active and default profiles
  * through the {@link #ACTIVE_PROFILES_PROPERTY_NAME} and
@@ -107,8 +111,10 @@ public abstract class AbstractEnvironment implements ConfigurableEnvironment {
 
 	private final Set<String> defaultProfiles = new LinkedHashSet<>(getReservedDefaultProfiles());
 
+	//在构造函数中new了一个MutablePropertySources初始化这个属性
 	private final MutablePropertySources propertySources;
 
+	//这个对象是PropertySourcesPropertyResolver
 	private final ConfigurablePropertyResolver propertyResolver;
 
 
@@ -140,6 +146,8 @@ public abstract class AbstractEnvironment implements ConfigurableEnvironment {
 
 
 	/**
+	 * 创建ConfigurablePropertyResolver的工厂方法
+	 *
 	 * Factory method used to create the {@link ConfigurablePropertyResolver}
 	 * instance used by the Environment.
 	 * @since 5.3.4
@@ -619,6 +627,7 @@ public abstract class AbstractEnvironment implements ConfigurableEnvironment {
 		return this.propertyResolver.resolvePlaceholders(text);
 	}
 
+	//把解析占位符的工作委派给ConfigurablePropertyResolver
 	@Override
 	public String resolveRequiredPlaceholders(String text) throws IllegalArgumentException {
 		return this.propertyResolver.resolveRequiredPlaceholders(text);

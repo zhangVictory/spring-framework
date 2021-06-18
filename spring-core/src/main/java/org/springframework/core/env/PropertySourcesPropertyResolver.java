@@ -68,14 +68,26 @@ public class PropertySourcesPropertyResolver extends AbstractPropertyResolver {
 		return getProperty(key, targetValueType, true);
 	}
 
+	//实现了父类AbstractPropertyResolver的方法，根据名称获取属性值
 	@Override
 	@Nullable
 	protected String getPropertyAsRawString(String key) {
 		return getProperty(key, String.class, false);
 	}
 
+	/**
+	 *
+	 * @param key 属性名称
+	 * @param targetValueType 目标值类型
+	 * @param resolveNestedPlaceholders 是否解析内嵌的属性
+	 * @param <T>
+	 * @return
+	 */
 	@Nullable
 	protected <T> T getProperty(String key, Class<T> targetValueType, boolean resolveNestedPlaceholders) {
+		/**
+		 * @see AbstractEnvironment#createPropertyResolver 在AbstractEnvironment的构造方法中初始化了一个PropertySources并传递给createPropertyResolver方法 它是MutablePropertySources
+		 */
 		if (this.propertySources != null) {
 			for (PropertySource<?> propertySource : this.propertySources) {
 				if (logger.isTraceEnabled()) {

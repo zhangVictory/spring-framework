@@ -182,6 +182,8 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 
 
 	static {
+		//webLogic 8.1 的bug，需要预先加载一下这个类
+
 		// Eagerly load the ContextClosedEvent class to avoid weird classloader issues
 		// on application shutdown in WebLogic 8.1. (Reported by Dustin Woods.)
 		ContextClosedEvent.class.getName();
@@ -224,6 +226,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	@Nullable
 	private Thread shutdownHook;
 
+	//解析路径参数
 	/** ResourcePatternResolver used by this context. */
 	private ResourcePatternResolver resourcePatternResolver;
 
@@ -339,6 +342,8 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	}
 
 	/**
+	 * 返回当前上下文的Environment，允许进一步自定义
+	 *
 	 * Return the {@code Environment} for this application context in configurable
 	 * form, allowing for further customization.
 	 * <p>If none specified, a default environment will be initialized via
@@ -353,6 +358,9 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	}
 
 	/**
+	 * 创建一个新的StandardEnvironment，子类可以重写此方法提供一个
+	 * 自定义的ConfigurableEnvironment实现
+	 *
 	 * Create and return a new {@link StandardEnvironment}.
 	 * <p>Subclasses may override this method in order to supply
 	 * a custom {@link ConfigurableEnvironment} implementation.
@@ -484,6 +492,8 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	}
 
 	/**
+	 * 解析路径模式，支持Ant风格，可以被子类重写，支持扩展的解析策略
+	 *
 	 * Return the ResourcePatternResolver to use for resolving location patterns
 	 * into Resource instances. Default is a
 	 * {@link org.springframework.core.io.support.PathMatchingResourcePatternResolver},
@@ -507,6 +517,8 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	//---------------------------------------------------------------------
 
 	/**
+	 * 设置当前上下文的父上下文，如果父上下文不为空，则把当前上下文的Environment和父上下文的合并
+	 *
 	 * Set the parent of this application context.
 	 * <p>The parent {@linkplain ApplicationContext#getEnvironment() environment} is
 	 * {@linkplain ConfigurableEnvironment#merge(ConfigurableEnvironment) merged} with
@@ -557,7 +569,10 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 
 	@Override
 	public void refresh() throws BeansException, IllegalStateException {
+		//容器刷新 销毁的时候需要同步
 		synchronized (this.startupShutdownMonitor) {
+
+			//调用的是DefaultApplicationStartup对象的start方法，返回的是DefaultStartupStep对象，主要用来统计一些度量的指标，收集容器的上下文数据
 			StartupStep contextRefresh = this.applicationStartup.start("spring.context.refresh");
 
 			// Prepare this context for refreshing.
