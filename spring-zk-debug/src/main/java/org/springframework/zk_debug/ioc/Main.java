@@ -1,7 +1,7 @@
 package org.springframework.zk_debug.ioc;
 
+import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.zk_debug.ioc.beans.TestBean;
 
