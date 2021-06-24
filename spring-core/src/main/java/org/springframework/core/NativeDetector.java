@@ -17,6 +17,7 @@
 package org.springframework.core;
 
 /**
+ * 主要用来检测是不是GraalVM环境的，通过一个org.graalvm.nativeimage.imagecode系统属性实现，如果不试用GraalVM，这个属性为false
  * A common delegate for detecting a GraalVM native image environment.
  *
  * <p>Requires using the {@code -H:+InlineBeforeAnalysis} native image compiler flag in order to allow code removal at

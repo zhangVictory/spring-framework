@@ -37,6 +37,8 @@ import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
 /**
+ * 这个类主要是通过Java的MBean来查看Spring容器中的bean信息的
+ *
  * Adapter for live beans view exposure, building a snapshot of current beans
  * and their dependencies from either a local {@code ApplicationContext} (with a
  * local {@code LiveBeansView} bean definition) or all registered ApplicationContexts

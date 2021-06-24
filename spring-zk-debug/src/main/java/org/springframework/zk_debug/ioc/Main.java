@@ -1,6 +1,7 @@
 package org.springframework.zk_debug.ioc;
 
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.zk_debug.ioc.beans.TestBean;
 
@@ -17,8 +18,8 @@ public class Main {
 	public static void testApplicationContext(){
 		ApplicationContext context = new
 				ClassPathXmlApplicationContext("applicationContext.xml");
-		TestBean tb = context.getBean("tb", TestBean.class);
-		tb.say();
+		TestBean testBean = context.getBean("fbtb", TestBean.class);
+		testBean.say();
 	}
 
 	public static void testStreamAPI(){
@@ -28,5 +29,9 @@ public class Main {
 		System.out.println(integerList);
 		List<Integer> collect = integerList.parallelStream().sorted().map(t -> t+1).collect(Collectors.toList());
 		System.out.println(collect);
+	}
+
+	public void test(){
+
 	}
 }

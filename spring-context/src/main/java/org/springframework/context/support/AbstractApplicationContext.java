@@ -103,6 +103,13 @@ import org.springframework.util.ReflectionUtils;
  * 完整类路径资源名称，例如“mypackage/myresource.dat”），除非在子类中重写DefaultResourceLoader.
  * getResourceByPath（java.lang.String）方法。
  *
+ *
+ * ApplicationContext接口的抽象实现类,能够自动检测并注册各种后置处理器(PostProcessor)和事件监听器(Listener),
+ * 以模板方法模式定义了一些容器的通用方法,比如启动容器的真正方法refresh()就是在该类中定义的。
+ *
+ * 所有有关核心IOC容器的事情，都委派给核心容器去做了，这是装饰者模式
+ *
+ *
  * Abstract implementation of the {@link org.springframework.context.ApplicationContext}
  * interface. Doesn't mandate the type of storage used for configuration; simply
  * implements common context functionality. Uses the Template Method design pattern,
@@ -261,6 +268,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	 * Create a new AbstractApplicationContext with no parent.
 	 */
 	public AbstractApplicationContext() {
+		// PathMatchingResourcePatternResolver
 		this.resourcePatternResolver = getResourcePatternResolver();
 	}
 
@@ -492,7 +500,8 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	}
 
 	/**
-	 * 解析路径模式，支持Ant风格，可以被子类重写，支持扩展的解析策略
+	 * 解析路径模式，支持Ant风格，可以被子类重写，支持扩展的解析策略，
+	 * 返回PathMatchingResourcePatternResolver对象
 	 *
 	 * Return the ResourcePatternResolver to use for resolving location patterns
 	 * into Resource instances. Default is a
@@ -592,6 +601,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 
 			try {
 				// Allows post-processing of the bean factory in context subclasses.
+				//对beanFactory进行后置处理，主要包含注册BeanFactoryPostProcessors
 				postProcessBeanFactory(beanFactory);
 
 				StartupStep beanPostProcess = this.applicationStartup.start("spring.context.beans.post-process");
@@ -865,6 +875,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	}
 
 	/**
+	 * 主要为lifecycleProcessor赋值，注册这个bean
 	 * Initialize the LifecycleProcessor.
 	 * Uses DefaultLifecycleProcessor if none defined in the context.
 	 * @see org.springframework.context.support.DefaultLifecycleProcessor
@@ -957,6 +968,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 		beanFactory.setTempClassLoader(null);
 
 		// Allow for caching all bean definition metadata, not expecting further changes.
+		// 冻结所有的beanDefinition，保证不能被修改，因为下一步就要实例化，初始化bean了
 		beanFactory.freezeConfiguration();
 
 		// Instantiate all remaining (non-lazy-init) singletons.
@@ -964,6 +976,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	}
 
 	/**
+	 * 执行生命周期方法onRefresh，发布ContextRefreshedEvent事件
 	 * Finish the refresh of this context, invoking the LifecycleProcessor's
 	 * onRefresh() method and publishing the
 	 * {@link org.springframework.context.event.ContextRefreshedEvent}.

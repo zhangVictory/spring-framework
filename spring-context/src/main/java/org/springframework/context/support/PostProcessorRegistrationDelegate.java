@@ -75,6 +75,22 @@ final class PostProcessorRegistrationDelegate {
 		// Invoke BeanDefinitionRegistryPostProcessors first, if any.
 		Set<String> processedBeans = new HashSet<>();
 
+		/**
+		 * 如果当前beanFactory是一个BeanDefinitionRegistry的话
+		 * 1. 处理BeanDefinitionRegistryPostProcessor
+		 *     1.1. 处理方法参数beanFactoryPostProcessors中的BeanDefinitionRegistryPostProcessor对象，把他们加入到registryProcessors集合中，调用其postProcessBeanDefinitionRegistry方法
+		 *     1.2. 处理从beanFactory获取到的BeanDefinitionRegistryPostProcessor对象，把他们加入到registryProcessors集合中
+		 *         1.2.1. 处理实现了PriorityOrdered接口的，并按照顺序，调用其postProcessBeanDefinitionRegistry方法
+		 *         1.2.2. 处理实现了Ordered接口的，并按照顺序，调用其postProcessBeanDefinitionRegistry方法
+		 *         1.2.3. 处理从beanFactory获取到的 剩下的 BeanDefinitionRegistryPostProcessor对象，并按照顺序 调用其postProcessBeanDefinitionRegistry方法
+		 *     1.3. 调用registryProcessors集合中所有的BeanDefinitionRegistryPostProcessor对象的postProcessBeanFactory方法
+		 * 2. 处理非BeanDefinitionRegistryPostProcessor，这些对象都是从方法参数中获取的，调用其postProcessBeanFactory方法
+		 *
+		 * 否则，调用方法参数中，所有BeanFactoryPostProcessor的postProcessBeanFactory方法
+		 *
+		 * 最后，获取beanFactory的BeanFactoryPostProcessor对象，并排除已经处理过的，然后先处理实现了PriorityOrdered接口的，在处理实现了Ordered接口的，最后处理没有顺序的
+		 * 对于有顺序的，先排序，调用其postProcessBeanFactory方法，没有顺序的，就直接调用postProcessBeanFactory方法
+		 */
 		if (beanFactory instanceof BeanDefinitionRegistry) {
 			BeanDefinitionRegistry registry = (BeanDefinitionRegistry) beanFactory;
 			List<BeanFactoryPostProcessor> regularPostProcessors = new ArrayList<>();
@@ -199,6 +215,7 @@ final class PostProcessorRegistrationDelegate {
 
 		// Clear cached merged bean definitions since the post-processors might have
 		// modified the original metadata, e.g. replacing placeholders in values...
+		//这一步的作用是，释放缓存，因为beanFactoryPostProcessor可能修改bean的定义，只保留修改后的bean定义，释放掉修改之前的缓存
 		beanFactory.clearMetadataCache();
 	}
 

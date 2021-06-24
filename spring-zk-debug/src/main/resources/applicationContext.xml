@@ -5,4 +5,14 @@
         http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd">
 
 	<bean id="tb" class="org.springframework.zk_debug.ioc.beans.TestBean"/>
+
+<!--	<bean id="lifeCycleTestBean" class="org.springframework.zk_debug.ioc.beans.LifeCycleTestBean" init-method="initialMethod" destroy-method="destroyMethod">-->
+<!--		<constructor-arg name="name" value="victory"/>-->
+<!--		<constructor-arg name="age" value="25"/>-->
+<!--		<property name="testBean" ref="tb"/>-->
+<!--	</bean>-->
+
+	<bean id="fbtb" class="org.springframework.zk_debug.ioc.beans.FactoryBeanTestBean"/>
+
+	<context:annotation-config/>
 </beans>
